@@ -13,7 +13,9 @@ class DFA:
         self.symbols = [";", ":" , "[", "]", "(", ")", "{", "}" ,"+", "-", "*" ,"=", "<"]
         self.whitespaces = [" ", "\n", "\t", "\r", "\v", "\f"]
         self.letters = [chr(i) for i in range(65, 91)] + [chr(i) for i in range(97, 123)]
-        
+    
+    def get_keywords_list(self):
+        return self.keywords
 
     def reset(self):
         self.state = 0
