@@ -1,5 +1,5 @@
 class DFA:
-    def __init__():
+    def __init__(self,):
         self.state = 0
         self.is_final = False
         self.output = None

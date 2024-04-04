@@ -14,15 +14,15 @@ class Scanner:
         self.dfa = DFA()
         self.pointer = 0
         self.eof_pointer = len(self.input_text)
-        input_text.append("")
+        self.input_text.append("")
         self.line_number = 1
         self.tokens_list = []
         self.identifiers_list = []
         self.tokens_table = ""
         self.errors_table = ""
-        self.symbols_table = "\n".join([f"{i + 1}.\t{dfa.get_keywords_list()[i]}"]) + "\n"
+        self.symbols_table = "\n".join([f"{i + 1}.\t{self.dfa.get_keywords_list()[i]}"]) + "\n"
     
-    def get_next_token():
+    def get_next_token(self, ):
         self.dfa.make_transition(self.input_text[self.pointer])
 
         if self.input_text[self.pointer] == "\n":
