@@ -10,7 +10,7 @@ class DFA:
 
         self.digits = [str(i) for i in range(10)]
         self.keywords = ["if", "else", "void", "int", "for", "break", "return", "endif"]
-        self.symbols = [";", ":" , "[", "]", "(", ")", "{", "}" ,"+", "-", "*" ,"=", "<"]
+        self.symbols = [";", ":", "[", "]", "(", ")", "{", "}", "+", "-", "*", "=", "<"]
         self.whitespaces = [" ", "\n", "\t", "\r", "\v", "\f"]
         self.letters = [chr(i) for i in range(65, 91)] + [chr(i) for i in range(97, 123)]
     
@@ -30,7 +30,7 @@ class DFA:
         if not self.is_final:
             return None
         return (self.token_type, self.input_string)
-        self.reset()
+        # self.reset()
     
     def make_transition(self, input_char):
         if self.is_final:
