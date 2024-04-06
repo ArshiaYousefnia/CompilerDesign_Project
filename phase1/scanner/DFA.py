@@ -22,14 +22,16 @@ class DFA:
         self.is_final = False
         self.output = None
         if self.lookahead:
-            self.input_string = self.input_string[-1]
             self.lookahead = False
         self.input_string = ""
 
     def get_token(self):
         if not self.is_final:
             return None
-        return (self.token_type, self.input_string)
+        if not self.lookahead:
+            return (self.token_type, self.input_string)
+        else:
+            return (self.token_type, self.input_string[:-1])
         # self.reset()
     
     def make_transition(self, input_char):
@@ -57,7 +59,7 @@ class DFA:
                 self.state = 17
         
 
-        if self.state == 1:
+        elif self.state == 1:
             if input_char not in self.letters + self.digits:
                 self.state = 19
                 self.is_final = True
@@ -65,18 +67,18 @@ class DFA:
                 if self.input_string in self.keywords:
                     self.token_type = "KEYWORD"
                 else:
-                    self.token_type = "IDENTIFIER"
+                    self.token_type = "ID"
         
 
-        if self.state == 2:
+        elif self.state == 2:
             if input_char not in self.digits:
                 self.state = 20
                 self.is_final = True
                 self.lookahead = True
-                self.token_type = "DIGIT"
+                self.token_type = "NUM"
         
 
-        if self.state == 16:
+        elif self.state == 16:
             if input_char == "=":
                 self.state = 21
                 self.is_final = True
@@ -88,7 +90,7 @@ class DFA:
                 self.token_type = "SYMBOL"
         
 
-        if self.state == 17:
+        elif self.state == 17:
             if input_char == "/":
                 self.state = 25
             elif input_char == "*":
@@ -100,17 +102,17 @@ class DFA:
                 self.token_type = "SYMBOL"
         
 
-        if self.state == 24:
+        elif self.state == 24:
             if input_char == "*":
                 self.state = 26
         
 
-        if self.state == 25:
+        elif self.state == 25:
             if input_char in ["\n", ""]:
                 self.state = 27
                 self.is_final = True
         
-        if self.state == 26:
+        elif self.state == 26:
             if input_char == "/":
                 self.state = 27
                 self.is_final = True
