@@ -30,7 +30,7 @@ class Scanner:
         if self.input_text[self.pointer] == "\n" and not self.dfa.lookahead:
             self.line_number += 1
             if self.tokens_table[-1] == '\t':
-                self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 1)]
+                self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 2)]
                 self.tokens_table += f"{self.line_number}.\t"
             else:
                 self.tokens_table += f"\n{self.line_number}.\t"
