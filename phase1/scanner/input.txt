@@ -4,7 +4,10 @@ void main (void) {
     a = 2 + 2;
     a = a - 3;
     cde = a;
-    if (b /* comment2 */ == 3d) {
+    if (b /* commen
+    t2 */
+
+     == 3d) {
         a = 3;
         cd!e = 7;
     }
@@ -15,3 +18,5 @@ void main (void) {
         }} endif
         return; /* comment 3
 }
+
+chert

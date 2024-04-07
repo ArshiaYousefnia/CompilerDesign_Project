@@ -7,6 +7,8 @@ class DFA:
         self.current_input = None
         self.token_type = None
         self.lookahead = False
+        self.lexical_error = None
+        self.error_flag = False
 
         self.digits = [str(i) for i in range(10)]
         self.keywords = ["if", "else", "void", "int", "for", "break", "return", "endif"]
@@ -21,6 +23,8 @@ class DFA:
         self.state = 0
         self.is_final = False
         self.output = None
+        self.lexical_error = ""
+        self.error_flag = False
         if self.lookahead:
             self.lookahead = False
         self.input_string = ""
@@ -28,10 +32,17 @@ class DFA:
     def get_token(self):
         if not self.is_final:
             return None
-        if not self.lookahead:
-            return (self.token_type, self.input_string)
+        if not self.error_flag:
+            if not self.lookahead:
+                return (self.token_type, self.input_string)
+            else:
+                return (self.token_type, self.input_string[:-1])
         else:
-            return (self.token_type, self.input_string[:-1])
+            if not self.lookahead:
+                return (self.lexical_error, self.input_string)
+            else:
+                return (self.lexical_error, self.input_string[:-1])
+
         # self.reset()
     
     def make_transition(self, input_char):
@@ -47,6 +58,8 @@ class DFA:
                 self.token_type = "WHITESPACE"
             elif input_char == "=":
                 self.state = 16
+            elif input_char == "*":
+                self.state = 15
             elif input_char in self.symbols:
                 self.state = 3
                 self.is_final = True
@@ -57,10 +70,14 @@ class DFA:
                 self.state = 1
             elif input_char == "/":
                 self.state = 17
+            else:
+                self.is_final = True
+                self.error_flag = True
+                self.lexical_error = "Invalid input"
         
 
         elif self.state == 1:
-            if input_char not in self.letters + self.digits:
+            if input_char in self.whitespaces + self.symbols:
                 self.state = 19
                 self.is_final = True
                 self.lookahead = True
@@ -68,14 +85,23 @@ class DFA:
                     self.token_type = "KEYWORD"
                 else:
                     self.token_type = "ID"
+            elif input_char not in self.digits + self.letters:
+                self.is_final = True
+                self.error_flag = True
+                self.lexical_error = "Invalid input"
+
         
 
         elif self.state == 2:
-            if input_char not in self.digits:
+            if input_char in self.whitespaces + self.symbols:
                 self.state = 20
                 self.is_final = True
                 self.lookahead = True
                 self.token_type = "NUM"
+            elif input_char not in self.digits:
+                self.is_final = True
+                self.error_flag = True
+                self.lexical_error = "Invalid number"
         
 
         elif self.state == 16:
@@ -85,6 +111,17 @@ class DFA:
                 self.token_type = "SYMBOL"
             else:
                 self.state = 22
+                self.is_final = True
+                self.lookahead = True
+                self.token_type = "SYMBOL"
+
+        elif self.state == 15:
+            if input_char == "/":
+                self.is_final = True
+                self.error_flag = True
+                self.lexical_error = "Unmatched comment"
+            else:
+                self.state = 3
                 self.is_final = True
                 self.lookahead = True
                 self.token_type = "SYMBOL"
