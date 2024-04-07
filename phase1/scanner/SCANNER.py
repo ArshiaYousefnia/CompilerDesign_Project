@@ -77,17 +77,30 @@ class Scanner:
         if self.tokens_table[-1] == '\t':
             self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 1)]
 
+        if len(self.errors_table) == 0:
+            self.errors_table = "There is no lexical error."
+
         try:
-            self.tokens_file = open(self.tokens_file_name, "w")
+            try:
+                self.tokens_file = open(self.tokens_file_name, "w")
+            except:
+                self.tokens_file = open(self.tokens_file_name, "x")
             self.tokens_file.write(self.tokens_table)
             self.tokens_file.close()
 
-            self.errors_file = open(self.errors_file_name, "w")
+            try:
+                self.errors_file = open(self.errors_file_name, "w")
+            except:
+                self.errors_file = open(self.errors_file_name, "x")
             self.errors_file.write(self.errors_table)
             self.errors_file.close()
 
-            self.symbols_file = open(self.symbol_table_file_name, "w")
+            try:
+                self.symbols_file = open(self.symbol_table_file_name, "w")
+
+            except:
+                self.symbols_file = open(self.symbol_table_file_name, "x")
             self.symbols_file.write(self.symbols_table)
             self.symbols_file.close()
         except:
-            raise FileNotFoundError(f"c-- scanner error: Could not write to files")
+            print("could not write to files")

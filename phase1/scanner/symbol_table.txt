@@ -6,8 +6,7 @@
 6	break
 7	return
 8	endif
-9	main
+9	f
 10	a
-11	cde
+11	main
 12	b
-13	e
