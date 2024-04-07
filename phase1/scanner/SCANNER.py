@@ -75,7 +75,7 @@ class Scanner:
             else:
                 self.errors_table += f"{self.line_number}.\t({self.dfa.input_string}, Unclosed comment)\n"
         if self.tokens_table[-1] == '\t':
-            self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 1)]
+            self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 2)]
 
         if len(self.errors_table) == 0:
             self.errors_table = "There is no lexical error."
