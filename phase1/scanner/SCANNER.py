@@ -21,7 +21,7 @@ class Scanner:
         self.identifiers_list = []
         self.tokens_table = ""
         self.errors_table = ""
-        self.symbols_table = "\n".join([f"{i + 1}\t{self.dfa.get_keywords_list()[i]}" for i in range(0, 8)]) + "\n"
+        self.symbols_table = "\n".join([f"{i + 1}.\t{self.dfa.get_keywords_list()[i]}" for i in range(0, 8)]) + "\n"
 
 
     def get_next_token(self, ):
@@ -31,15 +31,15 @@ class Scanner:
             self.line_number += 1
             if self.tokens_table[-1] == '\t':
                 self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 1)]
-                self.tokens_table += f"{self.line_number}\t"
+                self.tokens_table += f"{self.line_number}.\t"
             else:
-                self.tokens_table += f"\n{self.line_number}\t"
+                self.tokens_table += f"\n{self.line_number}.\t"
 
         if self.dfa.is_final:
             token = self.dfa.get_token()
             if token != None:
                 if self.dfa.error_flag:
-                    self.errors_table += f"{self.line_number}\t({token[1]}, {token[0]})\n"
+                    self.errors_table += f"{self.line_number}.\t({token[1]}, {token[0]})\n"
                     self.pointer += 1
                     self.dfa.reset()
                     return 1
@@ -51,7 +51,7 @@ class Scanner:
                     self.tokens_list.append(token)
                 
                 if token[0] == "ID" and token[1] not in self.identifiers_list:
-                    self.symbols_table += f"{len(self.identifiers_list) + 9}\t{token[1]}\n"
+                    self.symbols_table += f"{len(self.identifiers_list) + 9}.\t{token[1]}\n"
                     self.identifiers_list.append(token[1])
                 
                 if not self.dfa.lookahead:
@@ -66,14 +66,14 @@ class Scanner:
         return 0
 
     def scan(self):
-        self.tokens_table += f"{self.line_number}\t"
+        self.tokens_table += f"{self.line_number}.\t"
         while self.pointer < self.eof_pointer:
             final_status = self.get_next_token()
         if final_status == 0:
             if len(self.dfa.input_string) > 7:
-                self.errors_table += f"{self.line_number}\t({self.dfa.input_string[0:7]}..., Unclosed comment)\n"
+                self.errors_table += f"{self.line_number}.\t({self.dfa.input_string[0:7]}..., Unclosed comment)\n"
             else:
-                self.errors_table += f"{self.line_number}\t({self.dfa.input_string}, Unclosed comment)\n"
+                self.errors_table += f"{self.line_number}.\t({self.dfa.input_string}, Unclosed comment)\n"
         if self.tokens_table[-1] == '\t':
             self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 1)]
 
