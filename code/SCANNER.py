@@ -21,12 +21,22 @@ class Scanner:
         self.identifiers_list = []
         self.tokens_table = ""
         self.errors_table = ""
-        self.symbols_table = "\n".join([f"{i + 1}.\t{self.dfa.get_keywords_list()[i]}" for i in range(0, 8)]) + "\n"
+        self.symbols_table = "\n".join([f"{i + 1}.\t{self.dfa.get_keywords_list()[i]}" for i in range(len(self.dfa.get_keywords_list()))]) + "\n"
+        
+        self.last_open_comment_line = -1
 
 
     def get_next_token(self, ):
+        if self.input_text[self.pointer] == "آ":
+            self.pointer += 1
+            return 1
+        
         self.dfa.make_transition(self.input_text[self.pointer])
 
+        if self.dfa.entered_comment:
+            self.last_open_comment_line = self.line_number
+            self.dfa.entered_comment = False
+        
         if self.input_text[self.pointer] == "\n" and not self.dfa.lookahead:
             self.line_number += 1
             if self.tokens_table[-1] == '\t':
@@ -34,24 +44,31 @@ class Scanner:
                 self.tokens_table += f"{self.line_number}.\t"
             else:
                 self.tokens_table += f"\n{self.line_number}.\t"
+            
+            if self.errors_table[-1] == '\t':
+                self.errors_table = self.errors_table[:-(len(str(self.line_number - 1)) + 2)]
+                self.errors_table += f"{self.line_number}.\t"
+            else:
+                self.errors_table += f"\n{self.line_number}.\t"
+        
 
         if self.dfa.is_final:
             token = self.dfa.get_token()
             if token != None:
                 if self.dfa.error_flag:
-                    self.errors_table += f"{self.line_number}.\t({token[1]}, {token[0]})\n"
+                    self.errors_table += f"({token[1]}, {token[0]}) "
                     self.pointer += 1
                     self.dfa.reset()
                     return 1
                 if token[0] == "ID" and token[1] in self.dfa.get_keywords_list():
                     token = ("KEYWORD", token[1])
 
-                if token[0] != "WHITESPACE":
-                    self.tokens_table += f" ({token[0]}, {token[1]})"
+                if token[0] != "WHITESPACE" and token[0] != "COMMENT":
+                    self.tokens_table += f"({token[0]}, {token[1]}) "
                     self.tokens_list.append(token)
                 
                 if token[0] == "ID" and token[1] not in self.identifiers_list:
-                    self.symbols_table += f"{len(self.identifiers_list) + 9}.\t{token[1]}\n"
+                    self.symbols_table += f"{len(self.identifiers_list) + len(self.dfa.get_keywords_list()) + 1}.\t{token[1]}\n"
                     self.identifiers_list.append(token[1])
                 
                 if not self.dfa.lookahead:
@@ -67,16 +84,27 @@ class Scanner:
 
     def scan(self):
         self.tokens_table += f"{self.line_number}.\t"
+
+        self.errors_table += f"{self.line_number}.\t"
+
         while self.pointer < self.eof_pointer:
             final_status = self.get_next_token()
         if final_status == 0:
+            if self.errors_table[-1] == '\t':
+                self.errors_table = self.errors_table[:-(len(str(self.line_number - 1)) + 2)]
+                self.errors_table += f"\n{self.last_open_comment_line}.\t"
+            
             if len(self.dfa.input_string) > 7:
-                self.errors_table += f"{self.line_number}.\t({self.dfa.input_string[0:7]}..., Unclosed comment)\n"
+                self.errors_table += f"({self.dfa.input_string[0:7]}..., Unclosed comment) "
             else:
-                self.errors_table += f"{self.line_number}.\t({self.dfa.input_string}, Unclosed comment)\n"
+                self.errors_table += f"({self.dfa.input_string}, Unclosed comment) "
+        
         if self.tokens_table[-1] == '\t':
-            self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 1)]
+            self.tokens_table = self.tokens_table[:-(len(str(self.line_number - 1)) + 2)]
 
+    
+        if self.errors_table[-1] == '\t':
+            self.errors_table = self.errors_table[:-(len(str(self.line_number - 1)) + 2)]
         if len(self.errors_table) == 0:
             self.errors_table = "There is no lexical error."
 

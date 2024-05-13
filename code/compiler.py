@@ -1,3 +1,6 @@
+#TEAM MEMBERS:
+#Arshia Yousefnia
+#Ruzbeh Moeini
 
 import SCANNER
 
