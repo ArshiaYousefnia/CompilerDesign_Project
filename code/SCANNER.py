@@ -83,14 +83,14 @@ class Scanner:
     
     def get_next_token(self):
         if (self.pointer == self.eof_pointer):
-            return ('$', None)
+            return "$"
         
         output = self.advance_reading()
         while (output[1] == None and self.pointer < self.eof_pointer):
             output = self.advance_reading()
         
         if (output[1] == None):
-            return ('$', None)
+            return "$"
         
         return output[1]
     
