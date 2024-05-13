@@ -26,10 +26,10 @@ class Scanner:
         self.last_open_comment_line = -1
 
 
-    def get_next_token(self, ):
+    def advance_reading(self):
         if self.input_text[self.pointer] == "آ":
             self.pointer += 1
-            return 1
+            return 1, None
         
         self.dfa.make_transition(self.input_text[self.pointer])
 
@@ -51,7 +51,6 @@ class Scanner:
             else:
                 self.errors_table += f"\n{self.line_number}.\t"
         
-
         if self.dfa.is_final:
             token = self.dfa.get_token()
             if token != None:
@@ -74,13 +73,27 @@ class Scanner:
                 if not self.dfa.lookahead:
                     self.pointer += 1
                 self.dfa.reset()
-                return 1
+                return 1, token
 
             #error has occurred
 
         
         self.pointer += 1
-        return 0
+        return 0, None
+    
+    def get_next_token(self):
+        if (self.pointer == self.eof_pointer):
+            return ('$', None)
+        
+        output = self.advance_reading()
+        while (output[1] == None and self.pointer < self.eof_pointer):
+            output = self.advance_reading()
+        
+        if (output[1] == None):
+            return ('$', None)
+        
+        return output[1]
+    
 
     def scan(self):
         self.tokens_table += f"{self.line_number}.\t"
@@ -88,7 +101,7 @@ class Scanner:
         self.errors_table += f"{self.line_number}.\t"
 
         while self.pointer < self.eof_pointer:
-            final_status = self.get_next_token()
+            final_status = self.advance_reading()[0]
         if final_status == 0:
             if self.errors_table[-1] == '\t':
                 self.errors_table = self.errors_table[:-(len(str(self.line_number - 1)) + 2)]
