@@ -52,12 +52,12 @@ class parser:
         print(RenderTree(self.root, style=ContStyle()))
 
     def get_next_terminal(self):
-        #for pre, _, node in RenderTree(self.root):
+        # for pre, _, node in RenderTree(self.root):
         #    print("%s%s" % (pre, node.name))
-        print(RenderTree(self.root, style=ContStyle()))
+        # print(RenderTree(self.root, style=ContStyle()))
 
         self.lookahead = self.scanner.get_next_token()
-        print(self.lookahead)
+        # print(self.lookahead)
         # print(RenderTree(self.root, style=ContStyle()))
         if self.lookahead[0] == "SYMBOL" or self.lookahead[0] == "KEYWORD":
             self.lookahead_terminal_equivalent = self.lookahead[1]
@@ -72,11 +72,14 @@ class parser:
                 self.current_node = Node(expected_token, parent=parent_node)
                 # self.get_next_terminal()
                 self.next_non_terminal_handle()
-            elif expected_token == self.lookahead_terminal_equivalent or expected_token == "epsilon":
+            elif expected_token == self.lookahead_terminal_equivalent:
                 Node(expected_token, parent=parent_node)
                 self.get_next_terminal()
+            elif expected_token == "epsilon":
+                Node(expected_token, parent=parent_node)
             else:
                 print("error") #toDo error handling
+                exit(1)
 
 
 

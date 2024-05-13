@@ -431,7 +431,7 @@
     },
     "grammar": [
         "",
-        "Declaration-list",
+        "Declaration-list $",
         "Declaration Declaration-list",
         "epsilon",
         "Declaration-initial Declaration-prime",

@@ -1,16 +1,16 @@
-int f(int a){
-return a * a * a;
-}
-void main(void){
-int a;
-int b;
-a = 8; /* 2*/
-if (b < 5) {
-a = f(a);
-}
-else{
-a = 4;
+
+
+int fibonachi(int n){
+  if(n==1)
+     return 1;
+  endif
+  if(n==2)
+     return 2;
+  endif
+  return fibonachi(n) + fibonachi(n-1);
 }
 
-break;
+void main(void){
+	int result;
+        result = fibonachi(5);
 }
