@@ -45,7 +45,7 @@ class Scanner:
             else:
                 self.tokens_table += f"\n{self.line_number}.\t"
             
-            if self.errors_table[-1] == '\t':
+            if len(self.errors_table) != 0 and self.errors_table[-1] == '\t':
                 self.errors_table = self.errors_table[:-(len(str(self.line_number - 1)) + 2)]
                 self.errors_table += f"{self.line_number}.\t"
             else:

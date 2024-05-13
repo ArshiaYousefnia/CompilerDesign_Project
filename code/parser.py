@@ -52,8 +52,10 @@ class parser:
         print(RenderTree(self.root, style=ContStyle()))
 
     def get_next_terminal(self):
-        for pre, _, node in RenderTree(self.root):
-            print("%s%s" % (pre, node.name))
+        #for pre, _, node in RenderTree(self.root):
+        #    print("%s%s" % (pre, node.name))
+        print(RenderTree(self.root, style=ContStyle()))
+
         self.lookahead = self.scanner.get_next_token()
         print(self.lookahead)
         # print(RenderTree(self.root, style=ContStyle()))
