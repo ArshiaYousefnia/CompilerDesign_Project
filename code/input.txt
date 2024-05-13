@@ -4,7 +4,7 @@ return a * a * a;
 void main(void){
 int a;
 int b;
-a = 8;
+a = 8; /* 2*/
 if (b < 5) {
 a = f(a);
 }

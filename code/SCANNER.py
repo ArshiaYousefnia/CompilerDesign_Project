@@ -73,6 +73,8 @@ class Scanner:
                 if not self.dfa.lookahead:
                     self.pointer += 1
                 self.dfa.reset()
+                if token[0] == "WHITESPACE" or token[0] == "COMMENT":
+                    return 1, None
                 return 1, token
 
             #error has occurred
