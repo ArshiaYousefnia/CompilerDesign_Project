@@ -24,6 +24,7 @@ class parser:
         self.eof_pointer = scanner.eof_pointer
         self.lookahead = ()
         self.lookahead_terminal_equivalent = ""
+        self.syntax_errors = ""
 
     def next_non_terminal_handle(self):
         predict_sets = self.predict[self.current_non_terminal]
@@ -49,7 +50,26 @@ class parser:
         self.get_next_terminal()
         while self.lookahead[0] != "$":
             self.next_non_terminal_handle()
-        print(RenderTree(self.root, style=ContStyle()))
+
+
+        try:
+            try:
+                self.syntax_errors_file = open(self.syntax_errors_file_name, "w")
+            except:
+                self.syntax_errors_file = open(self.syntax_errors_file_name, "x")
+            self.syntax_errors_file.write(self.syntax_errors)
+            self.syntax_errors_file.close()
+
+            try:
+                self.parse_tree_file = open(self.parse_tree_file_name, "w", encoding="utf-8")
+            except:
+                self.parse_tree_file = open(self.parse_tree_file_name, "x", encoding="utf-8")
+
+            for pre, _, node in RenderTree(self.root):
+                print("%s%s" % (pre, node.name), file=self.parse_tree_file)
+            self.parse_tree_file.close()
+        except:
+            print("could not write to files")
 
     def get_next_terminal(self):
         # for pre, _, node in RenderTree(self.root):
@@ -73,7 +93,10 @@ class parser:
                 # self.get_next_terminal()
                 self.next_non_terminal_handle()
             elif expected_token == self.lookahead_terminal_equivalent:
-                Node(expected_token, parent=parent_node)
+                if expected_token == "$":
+                    Node("$", parent=parent_node)
+                else:
+                    Node(f"({self.lookahead[0]}, {self.lookahead[1]})", parent=parent_node)
                 self.get_next_terminal()
             elif expected_token == "epsilon":
                 Node(expected_token, parent=parent_node)

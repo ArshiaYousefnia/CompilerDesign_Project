@@ -1,4 +1,4 @@
-
+/* sample 3 */
 
 int fibonachi(int n){
   if(n==1)
