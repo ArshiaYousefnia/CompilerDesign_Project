@@ -429,6 +429,152 @@
             ]
         ]
     },
+    "follow": {
+        "Program": [
+                "$"
+        ],
+        "Declaration-list": [
+                "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "$"
+        ],
+        "Declaration": [
+                "int", "void", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "$"
+        ],
+        "Declaration-initial": [
+                "[", "(", ";", ",", ")"
+        ],
+        "Declaration-prime": [
+                "int", "void", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "$"
+        ],
+        "Var-declaration-prime": [
+                "int", "void", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "$"
+        ],
+        "Fun-declaration-prime": [
+                "int", "void", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "$"
+        ],
+        "Type-specifier": [
+                "ID"
+        ],
+        "Params": [
+                ")"
+        ],
+        "Param-list": [
+                ")"
+        ],
+        "Param": [
+                ",", ")"
+        ],
+        "Param-prime": [
+                ",", ")"
+        ],
+        "Compound-stmt": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "int", "void", "$", "}"
+        ],
+        "Statement-list": [
+            "}"
+        ],
+        "Statement": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "}"
+        ],
+        "Expression-stmt": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "}"
+        ],
+        "Selection-stmt": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "}"
+        ],
+        "Else-stmt": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "}"
+        ],
+        "Iteration-stmt": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "}"
+        ],
+        "Return-stmt": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "}"
+        ],
+        "Return-stmt-prime": [
+            "endif", "else", "break", ";", "ID", "+", "-", "(", "NUM", "if", "return", "{", "for", "}"
+        ],
+        "Expression": [
+            ",", ")", "]", ";"
+        ],
+        "B": [
+            ",", ")", "]", ";"
+        ],
+        "H": [
+            ",", ")", "]", ";"
+        ],
+        "Simple-expression-zegond": [
+            ",", ")", "]", ";"
+        ],
+        "Simple-expression-prime": [
+            ",", ")", "]", ";"
+        ],
+        "C": [
+            ",", ")", "]", ";"
+        ],
+        "Relop": [
+            "+", "-", "(", "ID", "NUM"
+        ],
+        "Additive-expression": [
+            ",", ")", "]", ";"
+        ],
+        "Additive-expression-prime": [
+            "<", "==", ",", ")", "]", ";"
+        ],
+        "Additive-expression-zegond": [
+            "<", "==", ",", ")", "]", ";"
+        ],
+        "D": [
+            "<", "==", ",", ")", "]", ";"
+        ],
+        "Addop": [
+            "+", "-", "(", "ID", "NUM"
+        ],
+        "Term": [
+            "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Term-prime": [
+            "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Term-zegond": [
+            "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "G": [
+            "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Signed-factor": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Signed-factor-prime": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Signed-factor-zegond": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Factor": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Var-call-prime": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Var-prime": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Factor-prime": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Factor-zegond": [
+            "*", "+", "-", "<", "==", ",", ")", "]", ";"
+        ],
+        "Args": [
+            ")"
+        ],
+        "Arg-list": [
+            ")"
+        ],
+        "Arg-list-prime": [
+            ")"
+        ]
+    },
     "grammar": [
         "",
         "Declaration-list $",

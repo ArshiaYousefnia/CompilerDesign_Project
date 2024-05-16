@@ -1,23 +1,21 @@
-/* sample 6 */
+/* sample 5 */
 
-int s(int array[]){
-  int index;
-  int tmp;
-  index = 0;
-      if(array[index+1] < array[index]) {
-         tmp = array[index];
-         array[index] = array[index+1];
-         array[index+1] = tmp;
-         index = index - 1;
-       }
-       endif
+int func(int a[]){
+    int b
+	return a[b+2] * b
 }
 
 void main(void){
-	int array[5];
-	array[0] = 23*12;
-	array[1] = (23-12)*2<3;
-	array[2] = 1 + 1 - 2 * 3 == (4+112);
-    array[3] = 912;
-    s(array);
+	int a[20]
+	int b[20]
+	a[0] =1
+	if (a[0] < 5) 
+		b = fun(a)
+	endif
+	if (a[0] > 5)
+		b = func(b)
+	endif
+	if (a[0] == 5)
+		b = 0
+	endif
 }

@@ -18,6 +18,7 @@ class parser:
         self.non_terminals = data_table['non_terminals']
         self.predict = data_table['predict']
         self.grammar = data_table['grammar']
+        self.follow = data_table['follow']
         self.root = Node("Program")
         self.current_node = self.root
         self.current_non_terminal = "Program"
@@ -34,7 +35,29 @@ class parser:
                 rhs = self.grammar[int(predict_set[0])]
                 nodes = rhs.split()
                 self.match(nodes)
-                break
+                return
+        
+        if self.lookahead_terminal_equivalent in self.follow[self.current_non_terminal]:
+            #print(self.current_non_terminal)
+            self.current_node.parent = None
+
+            self.syntax_errors += f"#{self.scanner.line_number} : syntax error, missing {self.current_non_terminal}\n"
+        else:
+            if self.lookahead == "$":
+                #print(self.current_non_terminal)
+                self.current_node.parent = None
+
+                self.syntax_errors += f"#{self.scanner.line_number} : syntax error, Unexpected EOF\n"
+                self.analyze()
+                exit(0)
+            else:
+                repres = self.lookahead[0] if self.lookahead[0] in ["NUM", "ID"] else self.lookahead[1]
+                self.syntax_errors += f"#{self.scanner.line_number} : syntax error, illegal {repres}\n"
+                self.get_next_terminal()
+                self.next_non_terminal_handle()
+
+
+
 
     # def add_new_parse_tree_nodes(self, nodes):
     #     # nodes = nodes.split()
@@ -49,7 +72,7 @@ class parser:
 
     def analyze(self):
         self.get_next_terminal()
-        while self.lookahead[0] != "$":
+        while self.lookahead != "$":
             self.next_non_terminal_handle()
 
 
@@ -58,6 +81,10 @@ class parser:
                 self.syntax_errors_file = open(self.syntax_errors_file_name, "w")
             except:
                 self.syntax_errors_file = open(self.syntax_errors_file_name, "x")
+            
+            if self.syntax_errors == "":
+                self.syntax_errors = "There is no syntax error."
+
             self.syntax_errors_file.write(self.syntax_errors)
             self.syntax_errors_file.close()
 
@@ -93,6 +120,7 @@ class parser:
                 self.current_non_terminal = expected_token
                 # if expected_token == "Return-stmt":
                 #     print(parent_node.name)
+                ############################################do sth here
                 self.current_node = Node(expected_token, parent=parent_node)
                 # self.get_next_terminal()
                 self.next_non_terminal_handle()
@@ -105,14 +133,16 @@ class parser:
             elif expected_token == "epsilon":
                 Node(expected_token, parent=parent_node)
             else:
-                print("error") #toDo error handling
-                for pre, _, node in RenderTree(self.root):
-                    print("%s%s" % (pre, node.name))
-                print(expected_token)
-                print(self.current_non_terminal)
-                print(self.lookahead_terminal_equivalent)
+                #print("error") #toDo error handling
+                #for pre, _, node in RenderTree(self.root):
+                #    print("%s%s" % (pre, node.name))
+                #print(expected_token)
+                #print(self.current_non_terminal)
+                #print(self.lookahead_terminal_equivalent)
 
-                exit(1)
+                self.syntax_errors += f"#{self.scanner.line_number} : syntax error, missing {expected_token}\n"
+
+                #exit(1)
 
 
 

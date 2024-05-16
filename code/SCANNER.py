@@ -58,7 +58,7 @@ class Scanner:
                     self.errors_table += f"({token[1]}, {token[0]}) "
                     self.pointer += 1
                     self.dfa.reset()
-                    return 1
+                    return 1, None
                 if token[0] == "ID" and token[1] in self.dfa.get_keywords_list():
                     token = ("KEYWORD", token[1])
 
