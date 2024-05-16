@@ -73,6 +73,9 @@ class parser:
     def analyze(self):
         self.get_next_terminal()
         while self.lookahead != "$":
+            print(self.lookahead)
+            print(self.current_non_terminal)
+            print(self.syntax_errors + "\n-----")
             self.next_non_terminal_handle()
 
 
@@ -139,6 +142,10 @@ class parser:
                 #print(expected_token)
                 #print(self.current_non_terminal)
                 #print(self.lookahead_terminal_equivalent)
+                if (expected_token == "$"):
+                    Node("$", parent=parent_node)
+                    self.analyze()
+                    exit(0)
 
                 self.syntax_errors += f"#{self.scanner.line_number} : syntax error, missing {expected_token}\n"
 

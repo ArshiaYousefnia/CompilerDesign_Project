@@ -1,21 +1,21 @@
-/* sample 5 */
+/* sample 10 */
 
-int func(int a[]){
-    int b
-	return a[b+2] * b
-}
+int b;
+int a;
 
 void main(void){
-	int a[20]
-	int b[20]
-	a[0] =1
-	if (a[0] < 5) 
-		b = fun(a)
-	endif
-	if (a[0] > 5)
-		b = func(b)
-	endif
-	if (a[0] == 5)
-		b = 0
-	endif
+b= 3;
+for (a=0; a < 10 ; a +2) {
+
+if (a ==6){
+output(a)
+break;
+}endif
 }
+int ;
+{
+}
+{{}}
+}
+
+
