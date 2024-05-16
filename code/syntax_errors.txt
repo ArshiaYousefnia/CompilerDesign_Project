@@ -1,2 +1,4 @@
-#12 : syntax error, illegal break
-#15 : syntax error, illegal int
+#19 : syntax error, missing ]
+#19 : syntax error, missing ;
+#19 : syntax error, illegal )
+#19 : syntax error, illegal ]
