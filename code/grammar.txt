@@ -1,0 +1,88 @@
+Program -> Declaration-list
+Declaration-list -> Declaration Declaration-list
+Declaration-list -> EPSILON
+Declaration -> Declaration-initial Declaration-prime
+Declaration-initial -> Type-specifier #PID ID
+Declaration-prime -> Fun-declaration-prime
+Declaration-prime -> Var-declaration-prime
+Var-declaration-prime -> #Declare;
+Var-declaration-prime -> [ NUM ] #Array_declare;
+Fun-declaration-prime -> ( Params ) Compound-stmt
+Type-specifier -> int
+Type-specifier -> void
+Params -> int #PID ID Param-prime Param-list
+Params -> void
+Param-list -> , Param Param-list
+Param-list -> EPSILON
+Param -> Declaration-initial Param-prime
+Param-prime -> [ ]
+Param-prime -> EPSILON
+Compound-stmt -> { Declaration-list Statement-list }
+Statement-list -> Statement Statement-list
+Statement-list -> EPSILON
+Statement -> Expression-stmt
+Statement -> Compound-stmt
+Statement -> Selection-stmt
+Statement -> Iteration-stmt
+Statement -> Return-stmt
+Expression-stmt -> Expression ;
+Expression-stmt -> break ;
+Expression-stmt -> ;
+Selection-stmt -> if ( Expression ) #Save Statement Else-stmt
+Else-stmt -> #Jp endif
+Else-stmt -> else Statement #Jp endif
+Iteration-stmt -> for ( Expression ; #Label Expression ; #Save Expression ) Statement #For
+Return-stmt -> return Return-stmt-prime
+Return-stmt-prime -> ;
+Return-stmt-prime -> Expression ;
+Expression -> Simple-expression-zegond
+Expression -> #PID ID B
+B -> = Expression
+B -> [ Expression ] H
+B -> Simple-expression-prime
+H -> = Expression
+H -> G D C
+Simple-expression-zegond -> Additive-expression-zegond C
+Simple-expression-prime -> Additive-expression-prime C
+C -> Relop Additive-expression #Lt
+C -> EPSILON
+Relop -> <
+Eqop -> ==
+Additive-expression -> Term D
+Additive-expression-prime -> Term-prime D
+Additive-expression-zegond -> Term-zegond D
+D -> Addop Term #Add D
+D -> EPSILON
+Addop -> +
+Subop -> -
+Term -> Signed-factor G
+Term-prime -> Signed-factor-prime G
+Term-zegond -> Signed-factor-zegond G
+G -> * Signed-factor #Mult G
+G -> EPSILON
+Signed-factor -> + Factor
+Signed-factor -> - Factor
+Signed-factor -> Factor
+Signed-factor-prime -> Factor-prime
+Signed-factor-zegond -> + Factor
+Signed-factor-zegond -> - Factor
+Signed-factor-zegond -> Factor-zegond
+Factor -> ( Expression )
+Factor -> #PID ID Var-call-prime
+Factor -> NUM
+Var-call-prime -> ( Args )
+Var-call-prime -> Var-prime
+Var-prime -> [ Expression ]
+Var-prime -> EPSILON
+Factor-prime -> ( Args )
+Factor-prime -> EPSILON
+Factor-zegond -> ( Expression )
+Factor-zegond -> NUM
+Args -> Arg-list
+Args -> EPSILON
+Arg-list -> Expression Arg-list-prime
+Arg-list-prime -> , Expression Arg-list-prime
+Arg-list-prime -> EPSILON
+
+C -> Eqop Additive-expression #Eq
+D -> Subop Term #Sub D
