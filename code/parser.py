@@ -1,6 +1,7 @@
 import json
 
 import SCANNER
+import codegen
 from anytree import Node, RenderTree, ContStyle, PreOrderIter
 # print(RenderTree(f, style=ContStyle()).by_attr())
 
@@ -29,6 +30,11 @@ class parser:
         self.id = 0
 
     def next_non_terminal_handle(self):
+        #################################################
+        if self.current_non_terminal[0] == '#':
+            codegen.generate(self.current_non_terminal[1:], self.lookahead)
+            
+        #################################################
         predict_sets = self.predict[self.current_non_terminal]
         for predict_set in predict_sets:
             if self.lookahead_terminal_equivalent in predict_set:
